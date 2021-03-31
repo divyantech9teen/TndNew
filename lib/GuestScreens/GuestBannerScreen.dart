@@ -58,7 +58,7 @@ class _GuestBannerScreenState extends State<GuestBannerScreen>
                       context,
                       MaterialPageRoute(
                         builder: (context) => NewsBannerDetail(
-                          newsData: widget.newsData[index],
+                          newsData: widget.extraNewsData[index],
                         ),
                       ));
                 },

@@ -815,7 +815,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(10)),
-                                      gradient: new LinearGradient(colors:[
+                                      gradient: new LinearGradient(colors: [
                                         cnst.buttoncolor,
                                         cnst.appMaterialColor
                                       ]),
@@ -902,8 +902,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                             ],
                                           ),
                                           onPressed: () {
-                                            String profileUrl = cnst.profileUrl
-                                                .replaceAll("#id", DigitalId);
+                                            String profileUrl =
+                                                "Hi there, \n You came to my mind as I was using this interesting App 'Digital Card'." +
+                                                    cnst.profileUrl.replaceAll(
+                                                        "#id", DigitalId) +
+                                                    "\n I have been using this App to manage my business smartly & in a digital way. \n You can also create your own business profile \n\n Download the App from the below link." +
+                                                    "https://play.google.com/store/apps/details?id=com.example1.the_national_dawn";
                                             Share.share(profileUrl);
 
                                             // bool val = checkValidity();

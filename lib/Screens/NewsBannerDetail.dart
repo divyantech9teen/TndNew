@@ -330,6 +330,40 @@ class _NewsBannerDetailState extends State<NewsBannerDetail> {
                             fontSize: 20,
                             fontWeight: FontWeight.bold)),
                     SizedBox(
+                      height: 5,
+                    ),
+                    widget.newsData["newsDate"] == null ||
+                            widget.newsData["newsDate"] == ""
+                        ? Container()
+                        : Row(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Icon(
+                                Icons.timer,
+                                size: 20,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                "${widget.newsData["newsDate"] + "  " + widget.newsData["newsTime"]}",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 8),
+                              )
+                            ],
+                          ),
+                    // Text("${widget.newsData["newsDate"]}",
+                    //     textAlign: TextAlign.justify,
+                    //     style: TextStyle(
+                    //       color: appPrimaryMaterialColor,
+                    //       fontSize: 14,
+                    //     )),
+                    // Text("${widget.newsData["newsDate"]}",
+                    //     textAlign: TextAlign.justify,
+                    //     style: TextStyle(
+                    //       color: appPrimaryMaterialColor,
+                    //       fontSize: 14,
+                    //     )),
+                    SizedBox(
                       height: 10,
                     ),
                     Text("${parsedString}",
