@@ -10,6 +10,7 @@ import 'package:the_national_dawn/Common/Constants.dart';
 import 'package:the_national_dawn/Common/Services.dart';
 import 'package:the_national_dawn/Components/EpaperComponent.dart';
 import 'package:the_national_dawn/Components/LoadingBlueComponent.dart';
+import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 
 class PaperScreen extends StatefulWidget {
   @override

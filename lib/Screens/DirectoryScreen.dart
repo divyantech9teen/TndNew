@@ -11,6 +11,7 @@ import 'package:the_national_dawn/Common/Services.dart';
 import 'package:the_national_dawn/Components/DirectoryComponent.dart';
 import 'package:the_national_dawn/Components/GridDirectoryComponent.dart';
 import 'package:the_national_dawn/Components/LoadingBlueComponent.dart';
+import 'package:the_national_dawn/Global.dart' as global;
 
 class DirectoryScreen extends StatefulWidget {
   @override
@@ -232,77 +233,6 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                 ),
               ),
             ),
-//             Expanded(
-//               child: Padding(
-//                 padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
-//                 child: isLoading
-//                     ? Center(child: LoadingBlueComponent())
-//                     : directoryList.length > 0 && directoryList != null
-//                     ? searchlist.length != 0
-//                     ? GridView.builder(
-//                   physics: BouncingScrollPhysics(),
-//                   gridDelegate:
-//                   SliverGridDelegateWithFixedCrossAxisCount(
-//                       crossAxisCount: 2,
-//                       childAspectRatio: 1,
-// //                        //widthScreen / heightScreen,
-//                       crossAxisSpacing: 20.0,
-//                       mainAxisSpacing: 25.0),
-//                   itemBuilder: (BuildContext context, int index) {
-//                     return GridDirectoryComponent(
-//                       directData: searchlist[index],
-//                     );
-//                   },
-//                   itemCount: searchlist.length,
-//                 )
-//                     : _isSearching && isfirst
-//                     ? GridView.builder(
-//                   physics: BouncingScrollPhysics(),
-//                   gridDelegate:
-//                   SliverGridDelegateWithFixedCrossAxisCount(
-//                       crossAxisCount: 2,
-//                       childAspectRatio: 1,
-// //                        //widthScreen / heightScreen,
-//                       crossAxisSpacing: 20.0,
-//                       mainAxisSpacing: 25.0),
-//                   itemBuilder:
-//                       (BuildContext context, int index) {
-//                     return  GridDirectoryComponent(
-//                       directData: searchlist[index],
-//                     );
-//                   },
-//                   itemCount: searchlist.length,
-//                 )
-//                     : GridView.builder(
-//                   physics: BouncingScrollPhysics(),
-//                   gridDelegate:
-//                   SliverGridDelegateWithFixedCrossAxisCount(
-//                       crossAxisCount: 2,
-//                       childAspectRatio: 1,
-// //                        //widthScreen / heightScreen,
-//                       crossAxisSpacing: 20.0,
-//                       mainAxisSpacing: 25.0),
-//                   itemBuilder:
-//                       (BuildContext context, int index) {
-//                     return  GridDirectoryComponent(
-//                       directData: directoryList[index],
-//                     );
-//                   },
-//                   itemCount: directoryList.length,
-//                 )
-//                     : Center(
-//                   child: Container(
-//                     //color: Color.fromRGBO(0, 0, 0, 0.6),
-//                     padding: EdgeInsets.symmetric(
-//                         horizontal: 20, vertical: 10),
-//                     child: Text("No Data Available",
-//                         style: TextStyle(
-//                             fontSize: 20,
-//                             color: appPrimaryMaterialColor)),
-//                   ),
-//                 ),
-//               ),
-//             ),
             Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(top: 30.0),
@@ -396,8 +326,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
+        print("MY NEW MEMBER COUNT");
+        print(global.membercount);
         var body = {"userid": prefs.getString(Session.CustomerId)};
-        print("userid: ${prefs.getString(Session.CustomerId)}");
+        //print("userid: ${prefs.getString(Session.CustomerId)}");
         Services.PostForList(api_name: 'directory/directorylisting', body: body)
             .then((ResponseList) async {
           setState(() {
@@ -407,7 +339,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
             setState(() {
               directoryList = ResponseList;
             });
-            print(ResponseList);
+            //print(ResponseList);
           } else {
             setState(() {
               isLoading = false;
@@ -471,9 +403,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
       isfirst = false;
     });
     // log('===========1================');
-    print(directoryList[1]["name"]);
+    //print(directoryList[1]["name"]);
     for (int i = 0; i < directoryList.length; i++) {
-      print(directoryList.length);
+      //print(directoryList.length);
       String name = directoryList[i]["name"].toString();
 
       String cmpName = directoryList[i]["business_category"].toString();
@@ -494,9 +426,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
       isfirst = false;
     });
     // log('===========1================');
-    print(directoryList[1]["name"]);
+    //print(directoryList[1]["name"]);
     for (int i = 0; i < directoryList.length; i++) {
-      print(directoryList.length);
+      //print(directoryList.length);
       String name = directoryList[i]["name"].toString();
 
       String cmpName = directoryList[i]["business_category"].toString();

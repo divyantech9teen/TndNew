@@ -422,7 +422,7 @@ class Services {
         response = await dio.post(url, data: body);
       }
 
-      log("->>> ${response.data}");
+      //log("->>> ${response.data}");
 
       if (response.statusCode == 200) {
         SaveDataClass2 savedata1 = new SaveDataClass2(

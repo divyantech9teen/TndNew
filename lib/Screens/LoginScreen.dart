@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_national_dawn/Common/Constants.dart';
 import 'package:the_national_dawn/Common/Services.dart';
 import 'package:the_national_dawn/Screens/VerificationScreen.dart';
+import 'package:the_national_dawn/Global.dart' as global;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -44,13 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
     await prefs.setString(Session.twitter, data["twitter"]);
     await prefs.setString(Session.youTube, data["youTube"]);
     await prefs.setBool(Session.isVerified, data["isVerified"]);
+
     //await prefs.setString(Session.business_category, data["business_category"]);
     await prefs.setString(Session.memberOf, json.encode(data["memberOf"]));
+    await prefs.setInt("membarcount", data["count"]);
+    global.membercount = data["count"];
 
     //log(json.decode(prefs.getString(Session.memberOf)).toString());
     //await prefs.setString(Session.business_category, data["business_category"]);
     //await prefs.setStringList(Session.memberOf,data ),
-
     Navigator.pushNamedAndRemoveUntil(context, '/HomePage', (route) => false);
   }
 
@@ -228,6 +231,8 @@ class _LoginScreenState extends State<LoginScreen> {
             if (responselist.length > 0) {
               setState(() {
                 isLoading = false;
+                print("response000000000000000000000000");
+                print(responselist);
               });
               if (txtMobileNumber.text == "9879208321") {
                 saveDataToSession(responselist[0]);

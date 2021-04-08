@@ -18,14 +18,14 @@ class Services {
       } else {
         response = await dio.post(url, data: body);
       }
-      log("->>>" + response.data.toString());
+      //log("->>>" + response.data.toString());
       if (response.statusCode == 200) {
         List list = [];
-        print("$api_name Response: " + response.data.toString());
+        //print("$api_name Response: " + response.data.toString());
         var responseData = response.data;
         if (responseData["IsSuccess"] == true &&
             responseData["Data"].length > 0) {
-          print(responseData["Data"]);
+          //print(responseData["Data"]);
           list = responseData["Data"];
         }
         return list;
@@ -239,6 +239,30 @@ class Services {
         MemberCategoryData categoryData =
             new MemberCategoryData.fromJson(response.data);
         return categoryData.Data;
+      } else {
+        print("error ->" + response.data.toString());
+        throw Exception(response.data.toString());
+      }
+    } catch (e) {
+      print("error -> ${e.toString()}");
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<List> memberCount(body) async {
+    var url = API_URL + "admin/updatecount";
+    try {
+      Response response = await dio.post(url, data: body);
+      if (response.statusCode == 200) {
+        List list = [];
+        print("login Response: " + response.data.toString());
+        var responseData = response.data;
+        if (responseData["IsSuccess"] == true &&
+            responseData["Data"].length > 0) {
+          print(responseData["Data"]);
+          list = responseData["Data"];
+        }
+        return list;
       } else {
         print("error ->" + response.data.toString());
         throw Exception(response.data.toString());

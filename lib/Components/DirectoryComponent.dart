@@ -15,6 +15,7 @@ import 'package:the_national_dawn/Screens/CompleteScreen.dart';
 import 'package:the_national_dawn/Screens/EnquiryForm.dart';
 import 'package:the_national_dawn/Screens/RequestScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:the_national_dawn/Global.dart' as global;
 
 class DirectoryComponent extends StatefulWidget {
   var directoryData;
@@ -31,9 +32,7 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
 
   _isMember() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isMember = prefs.getString(Session.ismember);
-    });
+    isMember = prefs.getString(Session.ismember);
   }
 
   launchSocialMediaUrl(var url) async {
@@ -75,6 +74,26 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
     );
   }
 
+  _showDialogFormember(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    AlertDialog alert = AlertDialog(
+        title: Text("The National Dawn"),
+        content: Text("Please subscribe for more networking"),
+        actions: [okButton]);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return alert;
+      },
+    );
+  }
+
   _showDialogComplete(BuildContext context) {
     showDialog(
       context: context,
@@ -92,6 +111,7 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
 
   @override
   void initState() {
+    // TODO: implement initState
     _firebaseMessaging.getToken().then((token) {
       setState(() {
         fcmToken = token;
@@ -99,19 +119,85 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
       print('----------->' + '${token}');
     });
     _isMember();
+    super.initState();
+  }
+
+  /*
+  @override
+  void initState() {
+    _firebaseMessaging.getToken().then((token) {
+      setState(() {
+        fcmToken = token;
+      });
+      print('----------->' + '${token}');
+    });
+    _isMember();
+    print("SUNNY MORI");
+  }*/
+  bool isLoading = false;
+  updateCount() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        setState(() {
+          isLoading = true;
+        });
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var body = {
+          "userid": await prefs.getString(Session.CustomerId),
+        };
+        print(body);
+        Services.memberCount(body).then((responselist) async {
+          if (responselist.length > 0) {
+            setState(() {
+              isLoading = false;
+              print("response000000000000000000000000");
+              print(responselist);
+            });
+            // saveDataToSession(responselist[0]);
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (BuildContext context) => VerificationScreen(
+            //           mobile: txtMobileNumber.text,
+            //           logindata: responselist[0],
+            //           onLoginSuccess: () {
+            //             saveDataToSession(responselist[0]);
+            //           },
+            //         )));
+            /*  Navigator.of(context).pushNamed('/HomePage');*/
+          } else {
+            setState(() {
+              isLoading = false;
+            });
+            //  _showDialog(context);
+          }
+        }, onError: (e) {
+          setState(() {
+            isLoading = false;
+          });
+          print("error on call -> ${e.message}");
+          Fluttertoast.showToast(msg: "something went wrong");
+        });
+      }
+    } on SocketException catch (_) {
+      Fluttertoast.showToast(msg: "No Internet Connection");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        isMember == "true"
+        global.membercount += 1;
+        updateCount();
+        print("globalpppppppppppppppppppppppppppp");
+        print(global.membercount);
+        isMember == "true" || (isMember == "false" && global.membercount <= 3)
             ? Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     new DirectoryProfileComponent(
                       directoryData: widget.directoryData,
                     )))
-            : Container();
+            : _showDialogFormember(context);
       },
       child: Padding(
         padding:
@@ -191,28 +277,6 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
                                         fontWeight: FontWeight.w400),
                                   ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 8.0),
-                      //   child: Text(
-                      //     "${widget.directoryData["status"]}" == "send"
-                      //         ? "1-2-1 Send : "
-                      //         : "${widget.directoryData["status"]}" ==
-                      //                 "requested"
-                      //             ? "1-2-1 Requested : "
-                      //             : "${widget.directoryData["status"]}" ==
-                      //                     "accepted"
-                      //                 ? "1-2-1 Accepted : "
-                      //                 : "1-2-1 Send : ",
-                      //     //widget.directoryData["business_category"],
-                      //     overflow: TextOverflow.ellipsis,
-                      //     textAlign: TextAlign.start,
-                      //     style: TextStyle(
-                      //         color: Colors.black,
-                      //         //fontStyle: FontStyle.italic,
-                      //         fontSize: 15,
-                      //         fontWeight: FontWeight.w500),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Row(
@@ -221,7 +285,16 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
                             "${widget.directoryData["status"]}" == "send"
                                 ? GestureDetector(
                                     onTap: () {
-                                      _showDialog(context);
+                                      global.membercount += 1;
+                                      updateCount();
+                                      print(
+                                          "globalpppppppppppppppppppppppppppp");
+                                      print(global.membercount);
+                                      isMember == "true" ||
+                                              (isMember == "false" &&
+                                                  global.membercount <= 3)
+                                          ? _showDialog(context)
+                                          : _showDialogFormember(context);
                                     },
                                     child: Container(
                                       height: 25,
@@ -275,7 +348,7 @@ class _DirectoryComponentState extends State<DirectoryComponent> {
                                                 padding: const EdgeInsets.only(
                                                     left: 3.0),
                                                 child: Text(
-                                                  "Requested  ",
+                                                  "Requested ",
                                                   style:
                                                       TextStyle(fontSize: 12),
                                                 ),
@@ -918,6 +991,54 @@ class _AlertSendState extends State<AlertSend> {
   String requestType = "physical";
   TextEditingController txtOnlineLink = TextEditingController();
   bool isSendLoading = false;
+  bool isLoading = false;
+  updateCount() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        setState(() {
+          isLoading = true;
+        });
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var body = {
+          "userid": await prefs.getString(Session.CustomerId),
+        };
+        print(body);
+        Services.memberCount(body).then((responselist) async {
+          if (responselist.length > 0) {
+            setState(() {
+              isLoading = false;
+              print("response000000000000000000000000");
+              print(responselist);
+            });
+            // saveDataToSession(responselist[0]);
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (BuildContext context) => VerificationScreen(
+            //           mobile: txtMobileNumber.text,
+            //           logindata: responselist[0],
+            //           onLoginSuccess: () {
+            //             saveDataToSession(responselist[0]);
+            //           },
+            //         )));
+            /*  Navigator.of(context).pushNamed('/HomePage');*/
+          } else {
+            setState(() {
+              isLoading = false;
+            });
+            // _showDialog(context);
+          }
+        }, onError: (e) {
+          setState(() {
+            isLoading = false;
+          });
+          print("error on call -> ${e.message}");
+          Fluttertoast.showToast(msg: "something went wrong");
+        });
+      }
+    } on SocketException catch (_) {
+      Fluttertoast.showToast(msg: "No Internet Connection");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1062,7 +1183,9 @@ class _AlertSendState extends State<AlertSend> {
                       TextStyle(color: appPrimaryMaterialColor, fontSize: 18),
                 ),
           onPressed: () async {
+            global.membercount += 1;
             _sendRequest();
+            updateCount();
             Navigator.pop(context);
 
             // await prefs.clear();

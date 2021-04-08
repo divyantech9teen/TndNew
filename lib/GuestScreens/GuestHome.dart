@@ -191,7 +191,7 @@ class _GuestHomeState extends State<GuestHome> {
             FormData.fromMap({"news_category": "local-news", "user_id": ""});
 
         // print(body.fields);
-        Services.PostForList1(api_name: 'custom/category_wise_news', body: body)
+        Services.PostForList1(api_name: 'custom/home_page_news', body: body)
             .then((subCatResponseList) async {
           setState(() {
             isLoading = false;
@@ -202,6 +202,8 @@ class _GuestHomeState extends State<GuestHome> {
 
               //set "data" here to your variable
             });
+            print("Home page news");
+            //print(newsCatList);
             // for (var i = 0; i <= subCatResponseList.length; i++) {
             //   if (subCatResponseList[i]["trending"] == true) {
             //     setState(() {

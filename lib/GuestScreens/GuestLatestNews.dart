@@ -58,7 +58,7 @@ class _GuestLatestNewsState extends State<GuestLatestNews> {
                           // colorBlendMode: BlendMode.colorDodge
                         )),
               SizedBox(
-                height: 12.0,
+                height: 10.0,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -71,7 +71,20 @@ class _GuestLatestNewsState extends State<GuestLatestNews> {
                 ),
               ),
               SizedBox(
-                height: 15.0,
+                height: 2.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "${widget.newsData["Category"]}",
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 2.0,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -79,7 +92,7 @@ class _GuestLatestNewsState extends State<GuestLatestNews> {
                   "${parsedString}",
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.justify,
-                  maxLines: 08,
+                  maxLines: 05,
                 ),
               )
             ],
