@@ -78,6 +78,7 @@ import 'Screens/EPaperScreen.dart';
 import 'Screens/EnquiryForm.dart';
 import 'Screens/MyOfferScreen.dart';
 import 'Dealbox/OfferPage.dart';
+import 'Screens/PermissionNoti.dart';
 
 const debug = true;
 void main() async {
@@ -195,6 +196,8 @@ class _MyAppState extends State<MyApp> {
         '/CompleteScreen': (context) => CompleteScreen(),
         '/DailyNewsDashBoard': (context) => DailyNewsDashBoard(),
         '/OfferPage': (context) => OfferPage(),
+        '/PermissionNoti': (context) => PermissionNoti(),
+
 
         //===============digital card screen=============
         '/AddCard': (context) => AddCard(),

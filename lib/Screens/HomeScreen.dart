@@ -597,6 +597,27 @@ class _HomeScreenState extends State<HomeScreen>
                     "My Offers",
                   ),
                 ),
+              ), Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Divider(),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/PermissionNoti');
+                },
+                child: ListTile(
+                  leading: Padding(
+                    padding: const EdgeInsets.only(right: 10.0, left: 4),
+                    child: Container(
+                        height: 26,
+                        width: 26,
+                        child: Icon(Icons.notifications,color: appPrimaryMaterialColor,)),
+                  ),
+                  title: Text(
+                    "Notification",
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
