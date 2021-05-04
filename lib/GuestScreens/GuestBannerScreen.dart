@@ -51,7 +51,7 @@ class _GuestBannerScreenState extends State<GuestBannerScreen>
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount: widget.newsData.length,
+          itemCount: widget.extraNewsData.length,
           itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
                   Navigator.push(

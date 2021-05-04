@@ -597,7 +597,8 @@ class _HomeScreenState extends State<HomeScreen>
                     "My Offers",
                   ),
                 ),
-              ), Padding(
+              ),
+              /*    Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Divider(),
               ),
@@ -612,13 +613,16 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Container(
                         height: 26,
                         width: 26,
-                        child: Icon(Icons.notifications,color: appPrimaryMaterialColor,)),
+                        child: Icon(
+                          Icons.notifications,
+                          color: appPrimaryMaterialColor,
+                        )),
                   ),
                   title: Text(
                     "Notification",
                   ),
                 ),
-              ),
+              ),*/
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Divider(),
@@ -737,18 +741,15 @@ class _HomeScreenState extends State<HomeScreen>
                                       Expanded(
                                         child: Container(
                                           color: Colors.white.withOpacity(0.45),
-                                          child: Flexible(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: Text(
-                                                link['title'],
-                                                textAlign: TextAlign.justify,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Text(
+                                              link['title'],
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ),

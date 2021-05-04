@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:pdf_flutter/pdf_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -162,382 +162,408 @@ class _PaperScreenState extends State<PaperScreen> {
       body: isLoading == true
           ? LoadingBlueComponent()
           : getEpaperList.length > 0 && getEpaperList != null
-            ? isfirst && searchlist.length == 0
-                ? ListView.builder(
-                  itemCount: getEpaperList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Stack(
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                log(getEpaperList[index]["pdfUrl"]);
-                                if (getEpaperList[index]["pdfUrl"] != "") {
-                                  await createFileOfPdfUrl(
+              ? isfirst && searchlist.length == 0
+                  ? GridView.builder(
+                      physics: BouncingScrollPhysics(),
+                      // shrinkWrap: true,
+                      padding: EdgeInsets.all(10),
+                      itemCount: getEpaperList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Stack(
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    log(getEpaperList[index]["pdfUrl"]);
+                                    if (getEpaperList[index]["pdfUrl"] != "") {
+                                      await createFileOfPdfUrl(
+                                              "http://15.207.46.236/" +
+                                                  getEpaperList[index]
+                                                      ["pdfUrl"])
+                                          .then((f) {
+                                        log(f.path);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new EpaperComponent(
+                                              path: f.path,
+                                              ePaperData: getEpaperList[index]
+                                                  ["pdfUrl"],
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    } else
+                                      Fluttertoast.showToast(
+                                          msg: "Data not found");
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => EpaperComponent(
+                                    //               ePaperData:
+                                    //                   getEpaperList[index],
+                                    //             )));
+                                  },
+                                  child: Container(
+                                    height: 179,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: Colors.grey[100], width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey[400]
+                                                  .withOpacity(0.2),
+                                              blurRadius: 1.0,
+                                              spreadRadius: 1.0,
+                                              offset: Offset(3.0, 5.0))
+                                        ]),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: PDF.network(
                                           "http://15.207.46.236/" +
-                                              getEpaperList[index]["pdfUrl"])
-                                      .then((f) {
-                                    log(f.path);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new EpaperComponent(
-                                          path: f.path,
-                                          ePaperData: getEpaperList[index]
-                                              ["pdfUrl"],
+                                              getEpaperList[index]["pdfUrl"],
+                                        )),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0.0,
+                                  right: 0.0,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      log(getEpaperList[index]["pdfUrl"]);
+                                      if (getEpaperList[index]["pdfUrl"] !=
+                                          "") {
+                                        await createFileOfPdfUrl(
+                                                "http://15.207.46.236/" +
+                                                    getEpaperList[index]
+                                                        ["pdfUrl"])
+                                            .then((f) {
+                                          log(f.path);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  new EpaperComponent(
+                                                path: f.path,
+                                                ePaperData: getEpaperList[index]
+                                                    ["pdfUrl"],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                      } else
+                                        Fluttertoast.showToast(
+                                            msg: "Data not found");
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => EpaperComponent(
+                                      //               ePaperData:
+                                      //                   getEpaperList[index],
+                                      //             )));
+                                    },
+                                    child: Container(
+                                      height: 24,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(12.0),
+                                            topLeft: Radius.circular(12.0)),
+                                        color: Colors.blue,
+                                        //color: ColorUtils.buttonDarkBlueColor,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${getEpaperList[index]["title"]} ",
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                       ),
-                                    );
-                                  });
-                                } else
-                                  Fluttertoast.showToast(msg: "Data not found");
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => EpaperComponent(
-                                //               ePaperData:
-                                //                   getEpaperList[index],
-                                //             )));
-                              },
-                              child: Container(
-                                height: 179,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: Colors.grey[100], width: 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color:
-                                              Colors.grey[400].withOpacity(0.2),
-                                          blurRadius: 1.0,
-                                          spreadRadius: 1.0,
-                                          offset: Offset(3.0, 5.0))
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    "http://15.207.46.236/" +
-                                        "${getEpaperList[index]["image"]}",
-
-                                    //"assets/offer2.jpg",
-                                    fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 0.0,
-                              left: 0.0,
-                              child: Container(
-                                height: 24,
-                                // width: 120,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(12.0),
-                                      topRight: Radius.circular(12.0),
-                                      topLeft: Radius.circular(12.0)),
-                                  color: appPrimaryMaterialColor[300],
-                                ),
-                                child: Center(
-                                    child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 3.0, right: 3),
-                                  child: Text(
-                                    "${getEpaperList[index]["title"]} ",
-
-                                    // "Category",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0.0,
-                              right: 0.0,
-                              child: Container(
-                                height: 24,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(12.0),
-                                      topLeft: Radius.circular(12.0)),
-                                  color: appPrimaryMaterialColor[300],
-                                  //color: ColorUtils.buttonDarkBlueColor,
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  "On Date: " +
-                                      "${getEpaperList[index]["date"]}",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                              ),
-                            ),
-                          ],
-                        ));
-                  },
-                )
-                : searchlist.length != 0
-                ?ListView.builder(
-        itemCount: searchlist.length,
-        itemBuilder: (context, index) {
-          return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      log(searchlist[index]["pdfUrl"]);
-                      if (searchlist[index]["pdfUrl"] != "") {
-                        await createFileOfPdfUrl(
-                            "http://15.207.46.236/" +
-                                searchlist[index]["pdfUrl"])
-                            .then((f) {
-                          log(f.path);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                              new EpaperComponent(
-                                path: f.path,
-                                ePaperData: searchlist[index]
-                                ["pdfUrl"],
-                              ),
-                            ),
-                          );
-                        });
-                      } else
-                        Fluttertoast.showToast(msg: "Data not found");
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => EpaperComponent(
-                      //               ePaperData:
-                      //                   getEpaperList[index],
-                      //             )));
-                    },
-                    child: Container(
-                      height: 179,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.grey[100], width: 1),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10.0)),
-                          boxShadow: [
-                            BoxShadow(
-                                color:
-                                Colors.grey[400].withOpacity(0.2),
-                                blurRadius: 1.0,
-                                spreadRadius: 1.0,
-                                offset: Offset(3.0, 5.0))
-                          ]),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          "http://15.207.46.236/" +
-                              "${searchlist[index]["image"]}",
-
-                          //"assets/offer2.jpg",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0.0,
-                    left: 0.0,
-                    child: Container(
-                      height: 24,
-                      // width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12.0),
-                            topRight: Radius.circular(12.0),
-                            topLeft: Radius.circular(12.0)),
-                        color: appPrimaryMaterialColor[300],
-                      ),
-                      child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 3.0, right: 3),
-                            child: Text(
-                              "${searchlist[index]["title"]} ",
-
-                              // "Category",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0.0,
-                    right: 0.0,
-                    child: Container(
-                      height: 24,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12.0),
-                            topLeft: Radius.circular(12.0)),
-                        color: appPrimaryMaterialColor[300],
-                        //color: ColorUtils.buttonDarkBlueColor,
-                      ),
-                      child: Center(
-                          child: Text(
-                            "On Date: " +
-                                "${searchlist[index]["date"]}",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                  ),
-                ],
-              ));
-        },
-      )
-                : ListView.builder(
-        itemCount: getEpaperList.length,
-        itemBuilder: (context, index) {
-          return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      log(getEpaperList[index]["pdfUrl"]);
-                      if (getEpaperList[index]["pdfUrl"] != "") {
-                        await createFileOfPdfUrl(
-                            "http://15.207.46.236/" +
-                                getEpaperList[index]["pdfUrl"])
-                            .then((f) {
-                          log(f.path);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                              new EpaperComponent(
-                                path: f.path,
-                                ePaperData: getEpaperList[index]
-                                ["pdfUrl"],
-                              ),
-                            ),
-                          );
-                        });
-                      } else
-                        Fluttertoast.showToast(msg: "Data not found");
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => EpaperComponent(
-                      //               ePaperData:
-                      //                   getEpaperList[index],
-                      //             )));
-                    },
-                    child: Container(
-                      height: 179,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.grey[100], width: 1),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10.0)),
-                          boxShadow: [
-                            BoxShadow(
-                                color:
-                                Colors.grey[400].withOpacity(0.2),
-                                blurRadius: 1.0,
-                                spreadRadius: 1.0,
-                                offset: Offset(3.0, 5.0))
-                          ]),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          "http://15.207.46.236/" +
-                              "${getEpaperList[index]["image"]}",
-
-                          //"assets/offer2.jpg",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0.0,
-                    left: 0.0,
-                    child: Container(
-                      height: 24,
-                      // width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12.0),
-                            topRight: Radius.circular(12.0),
-                            topLeft: Radius.circular(12.0)),
-                        color: appPrimaryMaterialColor[300],
-                      ),
-                      child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 3.0, right: 3),
-                            child: Text(
-                              "${getEpaperList[index]["title"]} ",
-
-                              // "Category",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0.0,
-                    right: 0.0,
-                    child: Container(
-                      height: 24,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12.0),
-                            topLeft: Radius.circular(12.0)),
-                        color: appPrimaryMaterialColor[300],
-                        //color: ColorUtils.buttonDarkBlueColor,
-                      ),
-                      child: Center(
-                          child: Text(
-                            "On Date: " +
-                                "${getEpaperList[index]["date"]}",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                  ),
-                ],
-              ));
-        },
-      )
-          : Center(
+                              ],
+                            ));
+                      },
+                    )
+                  : searchlist.length != 0
+                      ? GridView.builder(
+                          physics: BouncingScrollPhysics(),
+                          // shrinkWrap: true,
+                          padding: EdgeInsets.all(10),
+                          itemCount: searchlist.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Stack(
+                                  children: [
+                                    GestureDetector(
+                                      child: Container(
+                                        height: 179,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: Colors.grey[100],
+                                                width: 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey[400]
+                                                      .withOpacity(0.2),
+                                                  blurRadius: 1.0,
+                                                  spreadRadius: 1.0,
+                                                  offset: Offset(3.0, 5.0))
+                                            ]),
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: PDF.network(
+                                              "http://15.207.46.236/" +
+                                                  searchlist[index]["pdfUrl"],
+                                            )),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0.0,
+                                      right: 0.0,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          log(searchlist[index]["pdfUrl"]);
+                                          if (searchlist[index]["pdfUrl"] !=
+                                              "") {
+                                            await createFileOfPdfUrl(
+                                                    "http://15.207.46.236/" +
+                                                        searchlist[index]
+                                                            ["pdfUrl"])
+                                                .then((f) {
+                                              log(f.path);
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          new EpaperComponent(
+                                                    path: f.path,
+                                                    ePaperData:
+                                                        searchlist[index]
+                                                            ["pdfUrl"],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                          } else
+                                            Fluttertoast.showToast(
+                                                msg: "Data not found");
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) => EpaperComponent(
+                                          //               ePaperData:
+                                          //                   getEpaperList[index],
+                                          //             )));
+                                        },
+                                        child: Container(
+                                          height: 24,
+                                          width: 200,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                bottomRight:
+                                                    Radius.circular(12.0),
+                                                topLeft: Radius.circular(12.0)),
+                                            color: Colors.blue,
+                                            //color: ColorUtils.buttonDarkBlueColor,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "${searchlist[index]["title"]} ",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                          },
+                        )
+                      : GridView.builder(
+                          physics: BouncingScrollPhysics(),
+                          // shrinkWrap: true,
+                          padding: EdgeInsets.all(10),
+                          itemCount: getEpaperList.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Stack(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {
+                                        log(getEpaperList[index]["pdfUrl"]);
+                                        if (getEpaperList[index]["pdfUrl"] !=
+                                            "") {
+                                          await createFileOfPdfUrl(
+                                                  "http://15.207.46.236/" +
+                                                      getEpaperList[index]
+                                                          ["pdfUrl"])
+                                              .then((f) {
+                                            log(f.path);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new EpaperComponent(
+                                                  path: f.path,
+                                                  ePaperData:
+                                                      getEpaperList[index]
+                                                          ["pdfUrl"],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                        } else
+                                          Fluttertoast.showToast(
+                                              msg: "Data not found");
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) => EpaperComponent(
+                                        //               ePaperData:
+                                        //                   getEpaperList[index],
+                                        //             )));
+                                      },
+                                      child: Container(
+                                        height: 179,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: Colors.grey[100],
+                                                width: 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey[400]
+                                                      .withOpacity(0.2),
+                                                  blurRadius: 1.0,
+                                                  spreadRadius: 1.0,
+                                                  offset: Offset(3.0, 5.0))
+                                            ]),
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: PDF.network(
+                                              "http://15.207.46.236/" +
+                                                  getEpaperList[index]
+                                                      ["pdfUrl"],
+                                            )),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0.0,
+                                      right: 0.0,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          log(getEpaperList[index]["pdfUrl"]);
+                                          if (getEpaperList[index]["pdfUrl"] !=
+                                              "") {
+                                            await createFileOfPdfUrl(
+                                                    "http://15.207.46.236/" +
+                                                        getEpaperList[index]
+                                                            ["pdfUrl"])
+                                                .then((f) {
+                                              log(f.path);
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          new EpaperComponent(
+                                                    path: f.path,
+                                                    ePaperData:
+                                                        getEpaperList[index]
+                                                            ["pdfUrl"],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                          } else
+                                            Fluttertoast.showToast(
+                                                msg: "Data not found");
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) => EpaperComponent(
+                                          //               ePaperData:
+                                          //                   getEpaperList[index],
+                                          //             )));
+                                        },
+                                        child: Container(
+                                          height: 24,
+                                          width: 200,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomRight:
+                                                      Radius.circular(12.0),
+                                                  topLeft:
+                                                      Radius.circular(12.0)),
+                                              color: Colors.blue
+                                              //color: ColorUtils.buttonDarkBlueColor,
+                                              ),
+                                          child: Center(
+                                            child: Text(
+                                              "${getEpaperList[index]["title"]}",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                          },
+                        )
+              : Center(
                   child: Container(
-          //color: Color.fromRGBO(0, 0, 0, 0.6),
-          padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 10),
-          child: Text("No Data Available",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: appPrimaryMaterialColor)),
-        ),
-      )
-            ,
+                    //color: Color.fromRGBO(0, 0, 0, 0.6),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text("No Data Available",
+                        style: TextStyle(
+                            fontSize: 20, color: appPrimaryMaterialColor)),
+                  ),
+                ),
     );
   }
+
   void searchOperation(String searchText) {
     log('===========0================');
     searchlist.clear();
@@ -547,7 +573,7 @@ class _PaperScreenState extends State<PaperScreen> {
       print(getEpaperList[0]["date"]);
       for (int i = 0; i < getEpaperList.length; i++) {
         print(getEpaperList.length);
-             String newstype = getEpaperList[i]["date"].toString();
+        String newstype = getEpaperList[i]["date"].toString();
         log('===========2================');
         if (newstype.toLowerCase().contains(searchText.toLowerCase())) {
           searchlist.add(getEpaperList[i]);
@@ -557,6 +583,7 @@ class _PaperScreenState extends State<PaperScreen> {
     }
     setState(() {});
   }
+
   _getEpaper() async {
     try {
       final result = await InternetAddress.lookup('google.com');
