@@ -598,7 +598,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
               ),
-              /*    Padding(
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Divider(),
               ),
@@ -622,7 +622,7 @@ class _HomeScreenState extends State<HomeScreen>
                     "Notification",
                   ),
                 ),
-              ),*/
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Divider(),

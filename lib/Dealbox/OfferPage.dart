@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:the_national_dawn/Common/Constants.dart';
 import 'package:the_national_dawn/Common/Services.dart';
+import 'package:the_national_dawn/Dealbox/subcategory.dart';
 
 import 'OfferPageDetails.dart';
 
@@ -117,9 +118,9 @@ class _OfferPageState extends State<OfferPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OfferPageDetails(
-                              image: offerList[index]["categoryImage"],
-                              offerData: offerList[index],
+                        builder: (context) => subcategory(
+                              //  image: offerList[index]["categoryImage"],
+                              offerData: offerList[index]["_id"],
                             )));
               },
               child: Container(
@@ -131,22 +132,24 @@ class _OfferPageState extends State<OfferPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      offerList[index]["categoryIcon"] == ""
-                          ? Image.asset(
-                              "assets/appLogo.png",
-                              height: 60,
-                              width: MediaQuery.of(context).size.width,
-                            )
-                          : Image.network(
-                              offerList[index]["categoryIcon"],
-                              height: 60,
-                              width: MediaQuery.of(context).size.width,
-                            ),
+                      /* offerList[index]["categoryIcon"] == ""
+                          ?*/
+                      Image.asset(
+                        "assets/appLogo.png",
+                        height: 60,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      /* :
+                      Image.network(
+                        offerList[index]["categoryIcon"],
+                        height: 60,
+                        width: MediaQuery.of(context).size.width,
+                      ),*/
                       Flexible(
                           child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Text(
-                          "${offerList[index]["categoryName"]}",
+                          "${offerList[index]["CategoryName"]}",
                           style: TextStyle(
                               fontSize: 12,
                               color: Colors.black,
@@ -192,7 +195,7 @@ class _OfferPageState extends State<OfferPage> {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        Services.PostForList(api_name: 'admin/businessCategory').then(
+        Services.PostForList(api_name: 'admin/getallMasterCategory').then(
             (tabResponseList) async {
           setState(() {
             isOfferLoading = false;
@@ -200,6 +203,7 @@ class _OfferPageState extends State<OfferPage> {
           if (tabResponseList.length > 0) {
             setState(() {
               offerList = tabResponseList;
+              print(offerList);
               //set "data" here to your variable
             });
 

@@ -11,6 +11,7 @@ class Services {
   static Future<List> PostForList({api_name, body}) async {
     String url = API_URL + '$api_name';
     print("$api_name url : " + url);
+    print(body);
     Response response = null;
     try {
       if (body == null) {
@@ -23,10 +24,14 @@ class Services {
         List list = [];
         //print("$api_name Response: " + response.data.toString());
         var responseData = response.data;
+
         if (responseData["IsSuccess"] == true &&
             responseData["Data"].length > 0) {
           //print(responseData["Data"]);
           list = responseData["Data"];
+          print("56565656566");
+          print(responseData);
+          print("56565656566");
         }
         return list;
       } else {

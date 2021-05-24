@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 //const String SOAP_API_URL = "http://pmc.studyfield.com/Service.asmx/";
-
 const String API_URL = "http://15.207.46.236/";
 //const String API_URL = "https://tnd-tmp.herokuapp.com/admin/";
 //const String API_URL = "https://blogproject-33.herokuapp.com/";

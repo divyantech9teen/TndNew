@@ -10,9 +10,9 @@ import 'DealOffersDetails.dart';
 
 class OfferPageDetails extends StatefulWidget {
   String image;
-  var offerData;
+  String offerData;
 
-  OfferPageDetails({this.image, this.offerData});
+  OfferPageDetails({this.offerData});
 
   @override
   _OfferPageDetailsState createState() => _OfferPageDetailsState();
@@ -24,7 +24,7 @@ class _OfferPageDetailsState extends State<OfferPageDetails> {
 
   @override
   void initState() {
-    _getOffer("${widget.offerData["_id"]}");
+    _getOffer(widget.offerData.toString());
   }
 
   @override
