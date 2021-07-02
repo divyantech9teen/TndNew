@@ -6,9 +6,7 @@ import 'package:the_national_dawn/Components/SocialMediaComponent.dart';
 
 class CategoryProfileComponent extends StatefulWidget {
   var catData;
-
   CategoryProfileComponent({this.catData});
-
   @override
   _CategoryProfileComponentState createState() =>
       _CategoryProfileComponentState();

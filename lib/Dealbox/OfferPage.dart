@@ -120,7 +120,7 @@ class _OfferPageState extends State<OfferPage> {
                     MaterialPageRoute(
                         builder: (context) => subcategory(
                               //  image: offerList[index]["categoryImage"],
-                              offerData: offerList[index]["_id"],
+                              Mid: offerList[index]["_id"],
                             )));
               },
               child: Container(
@@ -165,7 +165,7 @@ class _OfferPageState extends State<OfferPage> {
 
   crousalContainer() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.25,
       width: MediaQuery.of(context).size.width,
       child: Carousel(
         dotPosition: DotPosition.bottomCenter,

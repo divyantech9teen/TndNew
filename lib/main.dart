@@ -101,6 +101,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
+        print(
+            "onMessage:------------------- $message  --------------------------------");
         if (message["data"]["status"] == "requested") {
           Get.to(NotificationPopUp(message: message));
           print("onMessage  (requested) $message");
@@ -114,6 +116,8 @@ class _MyAppState extends State<MyApp> {
       },
       //when app is closed and user click on notification
       onLaunch: (Map<String, dynamic> message) async {
+        print(
+            "onLaunch:------------------- $message  --------------------------------");
         if (message["data"]["status"] == "requested") {
           Get.to(NotificationPopUp(message: message));
           print("onLaunch: $message");
@@ -127,7 +131,8 @@ class _MyAppState extends State<MyApp> {
       },
       //when app is in background and user click on notification
       onResume: (Map<String, dynamic> message) async {
-        log("onResume:------------------- $message  --------------------------------");
+        print(
+            "onResume:------------------- $message  --------------------------------");
         if (message["data"]["status"] == "requested") {
           Get.to(NotificationPopUp(message: message));
           print("onResume: $message");
@@ -197,7 +202,6 @@ class _MyAppState extends State<MyApp> {
         '/DailyNewsDashBoard': (context) => DailyNewsDashBoard(),
         '/OfferPage': (context) => OfferPage(),
         '/PermissionNoti': (context) => PermissionNoti(),
-
 
         //===============digital card screen=============
         '/AddCard': (context) => AddCard(),

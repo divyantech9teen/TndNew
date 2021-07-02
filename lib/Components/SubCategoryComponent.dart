@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_national_dawn/Common/Constants.dart';
 import 'package:the_national_dawn/Common/Services.dart';
 import 'package:the_national_dawn/Components/LoadingBlueComponent.dart';
-
 import 'CategoryProfileComponent.dart';
 import 'DirectoryProfileComponent.dart';
 
@@ -20,7 +18,6 @@ class SubCategoryComponent extends StatefulWidget {
 class _SubCategoryComponentState extends State<SubCategoryComponent> {
   List catList = [];
   bool isLoading = true;
-
   @override
   void initState() {
     _getSubCat();
@@ -28,7 +25,6 @@ class _SubCategoryComponentState extends State<SubCategoryComponent> {
   }
 
   String isMember = "";
-
   // @override
   // void initState() {
   //   // TODO: implement initState

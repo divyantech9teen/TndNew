@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'dart:developer';
 import 'package:the_national_dawn/Common/ClassList.dart';
 import 'package:the_national_dawn/Common/Constants.dart';
+import 'package:http/http.dart' as http;
 
 Dio dio = new Dio();
 
@@ -220,6 +221,24 @@ class Services {
 
   static Future<List<OfferClass>> getState() async {
     String url = API_URL + 'admin/businessCategory';
+    try {
+      Response response = await dio.post(url);
+      if (response.statusCode == 200) {
+        OfferClassData offerClassData =
+            new OfferClassData.fromJson(response.data);
+        return offerClassData.Data;
+      } else {
+        print("error ->" + response.data.toString());
+        throw Exception(response.data.toString());
+      }
+    } catch (e) {
+      print("error -> ${e.toString()}");
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<List<OfferClass>> getState1() async {
+    String url = API_URL + 'admin/getallMasterCategory';
     try {
       Response response = await dio.post(url);
       if (response.statusCode == 200) {

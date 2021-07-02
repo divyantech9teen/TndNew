@@ -5,7 +5,6 @@ import 'package:the_national_dawn/Components/DirectoryComponent.dart';
 class GridDirectoryComponent extends StatefulWidget {
   var directData;
   GridDirectoryComponent({this.directData});
-
   @override
   _GridDirectoryComponentState createState() => _GridDirectoryComponentState();
 }

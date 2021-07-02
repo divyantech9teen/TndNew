@@ -27,6 +27,27 @@ class OfferClassData {
   }
 }
 
+class OfferClassData1 {
+  String Message;
+  bool IsSuccess;
+  List<OfferClass> Data;
+
+  OfferClassData1({
+    this.Message,
+    this.IsSuccess,
+    this.Data,
+  });
+
+  factory OfferClassData1.fromJson(Map<String, dynamic> json) {
+    return OfferClassData1(
+        Message: json['Message'] as String,
+        IsSuccess: json['IsSuccess'] as bool,
+        Data: json['Data']
+            .map<OfferClass>((singleJson) => OfferClass.fromJson(singleJson))
+            .toList());
+  }
+}
+
 class Visitorclass {
   int id;
   String Name;
@@ -69,7 +90,22 @@ class OfferClass {
   factory OfferClass.fromJson(Map<String, dynamic> json) {
     return OfferClass(
         offerId: json['_id'] as String,
-        offerName: json['categoryName'] as String);
+        offerName: json['CategoryName'] as String);
+  }
+}
+
+class OfferClass1 {
+  String offerId;
+  String offerName;
+  String mastercat;
+
+  OfferClass1({this.offerId, this.offerName, this.mastercat});
+
+  factory OfferClass1.fromJson(Map<String, dynamic> json) {
+    return OfferClass1(
+        offerId: json['_id'] as String,
+        offerName: json['CategoryName'] as String,
+        mastercat: json['Mastercategory'] as String);
   }
 }
 
