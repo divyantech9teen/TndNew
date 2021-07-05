@@ -47,7 +47,7 @@ class _GuestBannerScreenState extends State<GuestBannerScreen>
 
   horizontalContainerList() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.33,
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -64,10 +64,10 @@ class _GuestBannerScreenState extends State<GuestBannerScreen>
                 },
                 child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 6.0, top: 6.0, bottom: 6.0),
+                        const EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
                     child: Container(
-                      height: 180,
-                      width: 180,
+                      height: 150,
+                      width: 150,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.grey[200],
@@ -77,8 +77,8 @@ class _GuestBannerScreenState extends State<GuestBannerScreen>
                       child: Column(
                         children: [
                           Container(
-                              height: 154,
-                              width: 180,
+                              height: 150,
+                              width: 200,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey[200],
@@ -108,6 +108,10 @@ class _GuestBannerScreenState extends State<GuestBannerScreen>
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black,
                                     fontSize: 12),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                softWrap: true,
+
                               ),
                             ),
                           )

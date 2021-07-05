@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -220,7 +219,6 @@ class _MyAppState extends State<MyApp> {
         '/AddOffer': (context) => AddOffer(),
         '/EnquiryForm': (context) => EnquiryForm(),
         '/GalleryScreen': (context) => GalleryScreen(),
-
         //=============Guest Login
         '/GuestDashBoard': (context) => GuestDashBoard(),
         '/GridScreen': (context) => GridScreen(),

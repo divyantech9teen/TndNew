@@ -150,7 +150,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                 ),
               ),
             ),
-            Padding(
+ /*           Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
               child: Container(
                 height: 40,
@@ -158,13 +158,13 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                   color: Colors.white,
                   border: Border.all(color: Colors.black, width: 1),
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  /*boxShadow: [
+                  *//*boxShadow: [
                       BoxShadow(
                           color: appPrimaryMaterialColor.withOpacity(0.2),
                           blurRadius: 2.0,
                           spreadRadius: 2.0,
                           offset: Offset(3.0, 5.0))
-                    ]*/
+                    ]*//*
                 ),
                 child: DropdownButtonHideUnderline(
                   child: isOfferLoading
@@ -219,7 +219,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: Text(
-                                    offer.offerName,
+                                    offer.offerName.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
@@ -232,7 +232,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                         ),
                 ),
               ),
-            ),
+            ),*/
             Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(top: 30.0),
